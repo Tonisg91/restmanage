@@ -51,11 +51,10 @@ Restmanage is an app for manage restaurants.
     }
 
 - Product: {
-  - Title
+  - Name
   - Image
   - Category
   - Description
-  - Photos
   - Available (boolean)
     }
     
