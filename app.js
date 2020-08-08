@@ -8,6 +8,7 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const cors         = require('cors')
 
 
 
@@ -49,6 +50,11 @@ app.use(passport.session())
 // default value for title local
 app.locals.title = 'RestManager';
 
+//CORS
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:3001', 'http://localhost:3000']
+}))
 
 
 const index = require('./routes/index');
