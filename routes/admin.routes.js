@@ -49,7 +49,8 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/addproduct', (req, res, next) => {
-  const {name, category, description} = req.body
+  //TODO: Falta colocar la imagen
+  const {name, category, description, price } = req.body
 
   Product.findOne({name}, (err, foundProduct) => {
     if (err) {
@@ -63,7 +64,8 @@ router.post('/addproduct', (req, res, next) => {
     Product.create({
       name,
       category,
-      description
+      description,
+      price
     }, (err, newProduct) => {
       if (err) {
         res.status(500).json({message: "Ha ocurrido un error al crear el producto"})
