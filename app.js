@@ -60,7 +60,8 @@ app.use(cors({
 const index = require('./routes/index');
 const adminRoutes = require('./routes/admin.routes')
 const menuRoutes = require('./routes/menu.routes')
-app.use('/', index, menuRoutes);
+const authRoutes = require('./routes/auth.routes')
+app.use('/', index, menuRoutes, authRoutes);
 app.use('/admin', adminRoutes, menuRoutes)
 
 
