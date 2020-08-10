@@ -1,3 +1,4 @@
+
 const { Schema, model } = require('mongoose')
 
 const adminSchema = new Schema({
@@ -22,7 +23,7 @@ const adminSchema = new Schema({
     city: String,
     street: String,
     number: String
-  }
+  },
 },
 {
   timestamps: {
