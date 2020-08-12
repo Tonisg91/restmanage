@@ -36,8 +36,7 @@ router.post('/login' , (req, res, next) => {
                         res.status(400).json({ message: 'El usuario no existe.' })
                         return
                     }
-                    console.log(foundAdmin)
-                    //const salt = bcrypt.genSaltSync()
+                    
                     const match = bcrypt.compareSync(password, foundAdmin.passwordHash)
                     
                     if (!match) {
@@ -75,7 +74,6 @@ router.post('/signup', (req, res, next) => {
                 res.status(400).json({ message: "El usuario cliente ya existe." })
                 return
             }
-
             const salt = bcrypt.genSaltSync()
             const passwordHash = bcrypt.hashSync(password, salt)
                 Client.create({
@@ -96,6 +94,7 @@ router.post('/signup', (req, res, next) => {
                     })
                 })
         })
+        return
     }
 
     Admin.findOne({ email }, (err, foundUser) => {
@@ -104,7 +103,7 @@ router.post('/signup', (req, res, next) => {
             return
         }
         if (foundUser) {
-            res.status(400).json({ message: "El usuario ya existe." })
+            res.status(400).json({ message: "El usuario admin ya existe." })
             return
         }
 
@@ -116,7 +115,6 @@ router.post('/signup', (req, res, next) => {
                 passwordHash,
             }, (err, newAdmin) => {
                 if (err) {
-                    console.log(err)
                     res.status(500).json({ message: "Error al crear el usuario Admin" })
                     return
                 }
