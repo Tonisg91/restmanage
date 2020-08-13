@@ -2,11 +2,11 @@ const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const Admin = require('../models/Admin.model')
 const Product = require('../models/Product.model')
-//const passport = require('passport')
+const imageUploader = require('../configs/cloudinary.config')
 
 router.post('/addproduct', (req, res, next) => {
   //TODO: Falta colocar la imagen
-  const {name, category, description, price } = req.body
+  const {name, category, description, price, image } = req.body
 
   Product.findOne({name}, (err, foundProduct) => {
     if (err) {
@@ -21,7 +21,8 @@ router.post('/addproduct', (req, res, next) => {
       name,
       category,
       description,
-      price
+      price,
+      image
     }, (err, newProduct) => {
       if (err) {
         res.status(500).json({message: "Ha ocurrido un error al crear el producto"})
@@ -30,9 +31,17 @@ router.post('/addproduct', (req, res, next) => {
       res.status(200).json(newProduct)
     })
   })
-
-
-
 })
+
+router.post('/imageupload', imageUploader.single('image'), (req, res, next) => {
+  if (req.file) {
+    res.status(200).json({ url: req.file.path })
+    return
+  }
+
+  res.status(400).json({message: 'Debes seleccionar una imagen.'})
+})
+
+
 
 module.exports = router
