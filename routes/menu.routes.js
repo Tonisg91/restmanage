@@ -15,4 +15,19 @@ router.get('/menu', (req, res, next) => {
   })
 })
 
+router.get('/product/:id', (req, res, next) => {
+  const { id } = req.params
+  Product.findById(id, (err, product) => {
+    if (err) {
+      res.status(500).json({message: "Ha ocurrido un error al buscar el producto."})
+      return
+    }
+    if (!product) {
+      res.status(400).json({message: "No se encuentra el producto en la base de datos."})
+      return
+    }
+    res.status(200).json(product)
+  })
+})
+
 module.exports = router
