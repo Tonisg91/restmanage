@@ -30,4 +30,19 @@ router.get('/product/:id', (req, res, next) => {
   })
 })
 
+router.delete('/deleteproduct/:id', (req, res, next) => {
+  const { id } = req.params
+  Product.findByIdAndDelete(id, (err, productDeleted) => {
+    if (err) {
+      res.status(500).json({message: "Ha ocurrido un error al borrar el producto."})
+      return
+    }
+    if (!productDeleted) {
+      res.status(404).json({message: "No se encuentra el producto en la base de datos."})
+      return
+    }
+    res.status(200).json(productDeleted)
+  })
+})
+
 module.exports = router

@@ -6,6 +6,7 @@ const imageUploader = require('../configs/cloudinary.config')
 
 router.post('/addproduct', (req, res, next) => {
   //TODO: Falta colocar la imagen
+
   const {name, category, description, price, image } = req.body
 
   Product.findOne({name}, (err, foundProduct) => {
