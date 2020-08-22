@@ -34,6 +34,19 @@ router.post('/addproduct', (req, res, next) => {
   })
 })
 
+router.post('/editproduct', (req, res, next) => {
+  console.log(req.body)
+  const productToEdit = req.body._id
+
+  Product.findByIdAndUpdate(productToEdit, req.body, (err, editedProduct) => {
+    if (err) {
+      res.status(500).json({ message: "Ha ocurrido un error al editar el producto" })
+      return
+    }
+    res.status(200).json(editedProduct)
+  })
+})
+
 router.post('/imageupload', imageUploader.single('image'), (req, res, next) => {
   if (req.file) {
     res.status(200).json({ url: req.file.path })
