@@ -19,11 +19,10 @@ const adminSchema = new Schema({
     type: String,
     required: [true, "Contraseña obligatoria"]
   },
-  address: {
-    city: String,
-    street: String,
-    number: String
-  },
+  city: String,
+  street: String,
+  number: Number,
+  door: String
 },
 {
   timestamps: {
