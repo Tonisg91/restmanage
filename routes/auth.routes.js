@@ -135,13 +135,12 @@ router.post('/signup', (req, res, next) => {
 })
 
 router.post('/updateuser', async (req, res, next) => {
-    console.log(req.body)
     const { _id, adminPermissions } = req.body
 
     try {
         const newData = adminPermissions ? 
-            await Admin.findByIdAndUpdate(_id, req.body) :
-            await Client.findByIdAndUpdate(_id, req.body)
+            await Admin.findByIdAndUpdate(_id, req.body, { new: true }) :
+            await Client.findByIdAndUpdate(_id, req.body, { new: true })
         
         res.status(200).json(newData)
     } catch (err) {

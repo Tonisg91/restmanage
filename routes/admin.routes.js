@@ -35,7 +35,6 @@ router.post('/addproduct', (req, res, next) => {
 })
 
 router.post('/editproduct', (req, res, next) => {
-  console.log(req.body)
   const productToEdit = req.body._id
 
   Product.findByIdAndUpdate(productToEdit, req.body, (err, editedProduct) => {
