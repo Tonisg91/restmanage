@@ -61,8 +61,17 @@ const index = require('./routes/index');
 const adminRoutes = require('./routes/admin.routes')
 const menuRoutes = require('./routes/menu.routes')
 const authRoutes = require('./routes/auth.routes')
-app.use('/', index, menuRoutes, authRoutes);
-app.use('/admin', adminRoutes, menuRoutes)
+const cartRoutes = require('./routes/cart.routes')
+app.use('/', 
+  index, 
+  menuRoutes, 
+  authRoutes,
+  cartRoutes
+  );
+app.use('/admin', 
+  adminRoutes,
+  menuRoutes
+  )
 
 
 module.exports = app;
