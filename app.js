@@ -61,7 +61,7 @@ const index = require('./routes/index');
 const adminRoutes = require('./routes/admin.routes')
 const menuRoutes = require('./routes/menu.routes')
 const authRoutes = require('./routes/auth.routes')
-const cartRoutes = require('./routes/cart.routes')
+const cartRoutes = require('./routes/order.routes')
 app.use('/', 
   index, 
   menuRoutes, 
