@@ -15,6 +15,23 @@ router.get('/menu', (req, res, next) => {
   })
 })
 
+router.get('/category/:categoryName', async (req, res, next) => {
+  try {
+    const { categoryName } = req.params
+    const currentProducts = await Product.find({category: categoryName})
+    
+    if (!currentProducts.length) {
+      res.status(400).json({message: 'No hay productos con esta categoría.'})
+      return
+    }
+
+    res.status(200).json(currentProducts)
+  } catch (error) {
+    res.status(500).json({message: 'Error al buscar los productos por categorías.'})
+  }
+  
+})
+
 router.get('/product/:id', (req, res, next) => {
   const { id } = req.params
   Product.findById(id, (err, product) => {
