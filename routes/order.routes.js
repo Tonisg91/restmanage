@@ -4,6 +4,7 @@ const Client = require('../models/Client.model')
 const Order = require('../models/Order.model')
 
 router.post('/generateorder', async (req, res, next) => {
+    console.log(req.body)
     const { client } = req.body
     try {
         const newOrder = await Order.create(req.body)
