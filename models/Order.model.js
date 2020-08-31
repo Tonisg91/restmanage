@@ -1,11 +1,26 @@
 const { Schema, model } = require('mongoose')
 
+
+const productListSchema = new Schema({
+    product: {
+        _id: false,
+        type: Schema.Types.ObjectId,
+        ref: 'Products'
+    },
+    qty: {
+        type: Number
+    }
+}, {_id: false})
+
+
 const orderSchema = new Schema({
         client: {
             type: Schema.Types.ObjectId,
             ref: 'Client'
         },
-        products: [],
+        amount: Number,
+        easyId: String,
+        productList: [productListSchema],
         inProgress: {
             type: Boolean,
             default: true
@@ -13,12 +28,10 @@ const orderSchema = new Schema({
         isFinished: {
             type: Boolean,
             default: false
-        }
-    },
-    {
-        timestamps: {
-            createdAt: 'createdAt',
-            updatedAt: 'updatedAt'
+        },
+        timeStamps: { 
+            time: String,
+            date: String
         }
     }
 )
