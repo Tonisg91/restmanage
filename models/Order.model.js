@@ -5,10 +5,7 @@ const orderSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Client'
         },
-        products: [{
-            product: {},
-            qty: Number}
-        ],
+        products: [],
         inProgress: {
             type: Boolean,
             default: true

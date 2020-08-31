@@ -4,10 +4,10 @@ const Client = require('../models/Client.model')
 const Order = require('../models/Order.model')
 
 router.post('/generateorder', async (req, res, next) => {
-    console.log(req.body)
-    const { client } = req.body
+    const { client, products } = req.body
+    const productsId = products.map(({product}) => product._id)
     try {
-        const newOrder = await Order.create(req.body)
+        const newOrder = await Order.create({products: productsId, client})
         const newOrderId = newOrder._id
         if (client) {
             await Client.findByIdAndUpdate(client,{ $push: { orders: newOrderId}})
