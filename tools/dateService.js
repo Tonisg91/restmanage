@@ -13,6 +13,14 @@ class DateService {
         return `${this.twoDigits(this.month)}${this.twoDigits(this.day)}`
     }
 
+    MM() {
+        return this.twoDigits(this.month)
+    }
+
+    DD() {
+        return this.twoDigits(this.day)
+    }
+
 }
 
 module.exports = new DateService()

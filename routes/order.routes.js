@@ -2,7 +2,7 @@ require('dotenv').config
 const router = require('express').Router()
 const Client = require('../models/Client.model')
 const Order = require('../models/Order.model')
-const date = require('../tools/dateService').MMDD()
+const date = require('../tools/dateService')
 
 router.post('/generateorder', async (req, res, next) => {
     try {
@@ -13,26 +13,18 @@ router.post('/generateorder', async (req, res, next) => {
                 qty
             }
         })
-        const easyId = `${date}${await Order.countDocuments()}`
-        const timeStamps = {
-            time: `${new Date().toLocaleTimeString()}`,
-            date: `${new Date().toLocaleDateString()}`
-        }
-
+        const easyId = `${date.MMDD()}${await Order.countDocuments({date: date.MMDD()})}`
         const newOrder = await Order.create({
             productList, 
             client, 
             easyId,
             amount,
-            timeStamps
+            date: date.MMDD()
         })
-        const newOrderId = newOrder._id
-        if (client) {
-            await Client.findByIdAndUpdate(client,{ $push: { orders: newOrderId}})
-        }
 
-        res.status(200).json(newOrder)
-        return
+        if (client) await Client.findByIdAndUpdate(client,{ $push: { orders: newOrder._id}})
+
+        return res.status(200).json(newOrder)
     } catch (error) {
         res.status(500).json({ message: 'Error al generar el pedido.'})
     }

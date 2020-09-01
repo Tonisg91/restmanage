@@ -29,9 +29,12 @@ const orderSchema = new Schema({
             type: Boolean,
             default: false
         },
-        timeStamps: { 
-            time: String,
-            date: String
+        date: String
+    },
+    {
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
         }
     }
 )
