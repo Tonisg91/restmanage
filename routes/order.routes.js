@@ -32,7 +32,7 @@ router.post('/generateorder', async (req, res, next) => {
 
 router.get('/getallorders', async (req, res, next) => {
     try {
-        const ordersList = await Order.find().populate('client').populate('products.products')
+        const ordersList = await Order.find().populate('client').populate('productList.product')
         res.status(200).json(ordersList)
         return
     } catch (error) {
@@ -40,29 +40,32 @@ router.get('/getallorders', async (req, res, next) => {
     }
 })
 
-router.get('/getactiveorders', async (req, res, next) => {
+router.get('/getincomingorders', async (req, res, next) => {
     try {
-        const activeOrders = await Order.find({inProgress: true}).populate('client').populate('products')
-        if (!activeOrders) {
-            res.status(400).json({message: 'No hay pedidos pendientes.'})
+        const incomingOrders = await Order.find({
+                inProgress: false, 
+                isFinished: false
+            }).populate('client').populate('productList.product')
+        if (!incomingOrders) {
+            res.status(400).json({message: 'No hay pedidos entrantes.'})
             return
         }
-        res.status(200).json(activeOrders)
+        res.status(200).json(incomingOrders)
     } catch (error) {
-        res.status(500).json({message: 'Error al obtener los pedidos activos.'})
+        res.status(500).json({message: 'Error al obtener los pedidos entrantes.'})
     }
 })
 
-router.get('/getfinishedorders', async (req, res, next) => {
+router.get('/getordersinprogress', async (req, res, next) => {
     try {
-        const finishedOrders = await Order.find({ isFinished: true }).populate('client').populate('products')
+        const finishedOrders = await Order.find({ inProgress: true }).populate('client').populate('productList.product')
         if (!finishedOrders) {
-            res.status(400).json({ message: 'No hay pedidos finalizados.' })
+            res.status(400).json({ message: 'No hay pedidos en curso.' })
             return
         }
         res.status(200).json(finishedOrders)
     } catch (error) {
-        res.status(500).json({ message: 'Error al obtener los pedidos finalizados.' })
+        res.status(500).json({ message: 'Error al obtener los pedidos en curso.' })
     }
 })
 

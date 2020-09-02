@@ -3,9 +3,8 @@ const { Schema, model } = require('mongoose')
 
 const productListSchema = new Schema({
     product: {
-        _id: false,
         type: Schema.Types.ObjectId,
-        ref: 'Products'
+        ref: 'Product'
     },
     qty: {
         type: Number
@@ -23,7 +22,7 @@ const orderSchema = new Schema({
         productList: [productListSchema],
         inProgress: {
             type: Boolean,
-            default: true
+            default: false
         },
         isFinished: {
             type: Boolean,
