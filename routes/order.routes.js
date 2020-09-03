@@ -30,6 +30,21 @@ router.post('/generateorder', async (req, res, next) => {
     }
 })
 
+router.get('/getsingleorder/:id', async (req, res, next) => {
+    try {
+        const { id } = req.params
+        console.log(id)
+        const orderFounded = await Order.findById(id).populate('client').populate('productList.product')
+
+        if (!orderFounded) return res.status(400).json({message: "No se encuentra el pedido."})
+
+        return res.status(200).json(orderFounded)
+    } catch (error) {
+        res.status(500).json({message: "Error al buscar el pedido."})
+    }
+})
+
+
 router.get('/getallorders', async (req, res, next) => {
     try {
         const ordersList = await Order.find().populate('client').populate('productList.product')
@@ -66,6 +81,16 @@ router.get('/getordersinprogress', async (req, res, next) => {
         res.status(200).json(finishedOrders)
     } catch (error) {
         res.status(500).json({ message: 'Error al obtener los pedidos en curso.' })
+    }
+})
+
+router.post('/startorder/:orderId', async (req, res, next) => {
+    try {
+        const { orderId } = req.params
+        const startedOrder = await Order.findByIdAndUpdate(orderId, {inProgress: true}, {new: true})
+        res.status(200).json(startedOrder)
+    } catch (error) {
+        res.status(500).json({message: "Error al iniciar el pedido."})
     }
 })
 
