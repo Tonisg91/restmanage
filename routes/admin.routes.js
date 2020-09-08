@@ -5,8 +5,6 @@ const Product = require('../models/Product.model')
 const imageUploader = require('../configs/cloudinary.config')
 
 router.post('/addproduct', (req, res, next) => {
-  //TODO: Falta colocar la imagen
-
   const { name, category, description, price, image } = req.body
 
   Product.findOne({name}, (err, foundProduct) => {
@@ -48,11 +46,9 @@ router.post('/editproduct', (req, res, next) => {
 
 router.post('/imageupload', imageUploader.single('image'), (req, res, next) => {
   if (req.file) {
-    res.status(200).json({ url: req.file.path })
-    return
+    return res.status(200).json({ url: req.file.path })
   }
-
-  res.status(400).json({message: 'Debes seleccionar una imagen.'})
+  res.status(500).json({message: 'Error al cargar la imagen.'})
 })
 
 

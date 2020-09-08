@@ -6,13 +6,14 @@ const date = require('../tools/dateService')
 
 router.post('/generateorder', async (req, res, next) => {
     try {
-        const { client, products, amount } = req.body
+        const { client, products, amount, email } = req.body
         const productList = products.map(({product, qty}) => {
             return {
                 product: product._id,
                 qty
             }
         })
+        console.log(email)
         const easyId = `${date.MMDD()}${await Order.countDocuments({date: date.MMDD()})}`
         const newOrder = await Order.create({
             productList, 
