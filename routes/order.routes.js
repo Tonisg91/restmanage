@@ -13,7 +13,6 @@ router.post('/generateorder', async (req, res, next) => {
                 qty
             }
         })
-        console.log(email)
         const easyId = `${date.MMDD()}${await Order.countDocuments({date: date.MMDD()})}`
         const newOrder = await Order.create({
             productList, 
