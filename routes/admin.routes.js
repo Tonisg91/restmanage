@@ -5,7 +5,11 @@ const Product = require('../models/Product.model')
 const imageUploader = require('../configs/cloudinary.config')
 
 router.post('/addproduct', (req, res, next) => {
-  const { name, category, description, price, image } = req.body
+  const { name, category, description, price, image, ingredients } = req.body
+
+  const separatedIngredients = ingredients.split(',').map(word => word.trim())
+
+  console.log(separatedIngredients)
 
   Product.findOne({name}, (err, foundProduct) => {
     if (err) {
@@ -21,6 +25,7 @@ router.post('/addproduct', (req, res, next) => {
       category,
       description,
       price,
+      ingredients: separatedIngredients,
       image
     }, (err, newProduct) => {
       if (err) {
@@ -33,9 +38,24 @@ router.post('/addproduct', (req, res, next) => {
 })
 
 router.post('/editproduct', (req, res, next) => {
-  const productToEdit = req.body._id
+  const { name, category, description, price, image, ingredients, _id } = req.body
+  const separatedIngredients = () => {
+    if (typeof ingredients === 'string') {
+      return ingredients.split(',').map(word => word.trim())
+    }
+    return ingredients
+  }
 
-  Product.findByIdAndUpdate(productToEdit, req.body, (err, editedProduct) => {
+  const productUpdated = {
+    name,
+    category,
+    description,
+    price,
+    image,
+    ingredients: separatedIngredients()
+  }
+
+  Product.findByIdAndUpdate(_id, productUpdated, (err, editedProduct) => {
     if (err) {
       res.status(500).json({ message: "Ha ocurrido un error al editar el producto" })
       return
