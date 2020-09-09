@@ -28,7 +28,6 @@ const orderSchema = new Schema({
             type: Boolean,
             default: false
         },
-        date: String
     },
     {
         timestamps: {

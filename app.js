@@ -62,6 +62,7 @@ const adminRoutes = require('./routes/admin.routes')
 const menuRoutes = require('./routes/menu.routes')
 const authRoutes = require('./routes/auth.routes')
 const cartRoutes = require('./routes/order.routes')
+const configRoutes = require('./routes/config.routes')
 app.use('/', 
   index, 
   menuRoutes, 
@@ -70,7 +71,8 @@ app.use('/',
   );
 app.use('/admin', 
   adminRoutes,
-  menuRoutes
+  menuRoutes,
+  configRoutes
   )
 
 

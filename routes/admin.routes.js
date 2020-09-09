@@ -9,8 +9,6 @@ router.post('/addproduct', (req, res, next) => {
 
   const separatedIngredients = ingredients.split(',').map(word => word.trim())
 
-  console.log(separatedIngredients)
-
   Product.findOne({name}, (err, foundProduct) => {
     if (err) {
       res.status(500).json({message: "Ha ocurrido un error al buscar el producto"})
