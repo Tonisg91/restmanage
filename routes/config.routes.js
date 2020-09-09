@@ -3,7 +3,6 @@ const Config = require('../models/Config.model')
 
 router.post('/updateconfig', async (req, res, next) => {
     const { name, logo, phone, email, street, number, city, _id, ticketLogo } = req.body
-    console.log(req.body)
 
     try {
         const existentConfig = _id ? await Config.findById(_id) : null
@@ -38,8 +37,19 @@ router.post('/updateconfig', async (req, res, next) => {
     } catch (error) {
         return res.status(500).json({message: "Error al actualizar los datos de configuración."})
     }
-
-
 })
+
+router.get('/getconfig', async (req, res, next) => {
+    try {
+        const currentConfig = await Config.find()
+        if (!currentConfig) return res.status(200).json(null)
+
+        return res.status(200).json(currentConfig[0])
+    } catch (error) {
+        return res.status(500).json({message: "Error al obtener la configuración."})
+    }
+})
+
+
 
 module.exports = router
