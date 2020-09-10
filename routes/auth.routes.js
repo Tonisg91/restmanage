@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt')
 const Admin = require('../models/Admin.model')
 const Client = require('../models/Client.model')
 
+
 router.post('/login' , (req, res, next) => {
     const {email, password} = req.body
 
@@ -29,7 +30,7 @@ router.post('/login' , (req, res, next) => {
         } else {
                 Admin.findOne({ email }, (err, foundAdmin) => {
                     if (err) {
-                        res.status(500).json({ message: 'La busqueda de usuario en /login ha fallado.' })
+                        res.status(500).json({ message: 'La busqueda de administrador en /login ha fallado.' })
                         return
                     }
                     if (!foundAdmin) {
@@ -48,7 +49,7 @@ router.post('/login' , (req, res, next) => {
                     return
                 })
         }
-    })
+    }).populate('orders')
 })
 
 router.post('/signup', (req, res, next) => {
@@ -144,7 +145,7 @@ router.post('/updateuser', async (req, res, next) => {
         
         res.status(200).json(newData)
     } catch (err) {
-        console.error('Error al actualizar el usuario', err)
+        return res.status(500).json({ message: 'Error al actualizar el usuario'})
     }
 
     

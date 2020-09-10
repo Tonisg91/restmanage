@@ -22,7 +22,9 @@ router.post('/generateorder', async (req, res, next) => {
             date: date.MMDD()
         })
 
-        if (client) await Client.findByIdAndUpdate(client,{ $push: { orders: newOrder._id}})
+        if (client) {
+            await Client.findByIdAndUpdate(client,{ $push: { orders: newOrder._id}})
+        }
 
         return res.status(200).json(newOrder)
     } catch (error) {
@@ -33,7 +35,6 @@ router.post('/generateorder', async (req, res, next) => {
 router.get('/getsingleorder/:id', async (req, res, next) => {
     try {
         const { id } = req.params
-        console.log(id)
         const orderFounded = await Order.findById(id).populate('client').populate('productList.product')
 
         if (!orderFounded) return res.status(400).json({message: "No se encuentra el pedido."})
