@@ -18,7 +18,12 @@ const productSchema = new Schema({
   available: {
     type: Boolean,
     default: true
-  }
+  },
+  price: {
+    type: Number,
+    required: [true, "Es necesario indicar un precio"]
+  },
+  ingredients: [String]
 },
 {
   timestamps: {

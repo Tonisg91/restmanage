@@ -57,8 +57,6 @@ Restmanage is an app for manage restaurants.
   - Description
   - Available (boolean)
     }
-    
-- ProductList : [objectId 'products']
 
 - Client: {
   - email
@@ -73,10 +71,8 @@ Restmanage is an app for manage restaurants.
     }
 
 - Orders: {
-   - client
-   - products
-   - address
-   - price
+   - client = objectId 'client'
+   - products = []
    - inProgress
    - finished
   }

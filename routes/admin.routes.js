@@ -2,54 +2,12 @@ const router = require('express').Router()
 const bcrypt = require('bcrypt')
 const Admin = require('../models/Admin.model')
 const Product = require('../models/Product.model')
-//const passport = require('passport')
-
-router.post('/signup', (req, res, next) => {
-  const {email, password } = req.body
-  
-  if (!email || !password) {
-    res.status(400).json({message: "Email y contraseña son necesarios."})
-    return
-  }
-  
-  if (password.length < 6) {
-    res.status(400).json({message: "La contraseña debe incluir al menos 6 caracteres."})
-    return
-  }
-
-  
-  Admin.findOne({email}, (err, foundUser) => {
-    if(err) {
-      res.status(500).json({message: "La busqueda de usuario en /signup ha fallado."})
-      return
-    }
-    if(foundUser) {
-      res.status(400).json({message: "El usuario ya existe."})
-    }
-
-    const salt = bcrypt.genSaltSync()
-    const passwordHash = bcrypt.hashSync(password, salt)
-    
-    Admin.create({
-      email,
-      passwordHash
-    }, (err, newAdmin) => {
-      if (err) {
-        res.status(500).json({message: "Error al crear el usuario Admin"})
-      }
-      req.login(newAdmin, (err) => {
-        if (err) {
-          res.status(500).json({message: "El login despues de signup ha fallado"})
-          return
-        }
-        res.status(200).json(newAdmin)
-      })
-    })
-  })
-})
+const imageUploader = require('../configs/cloudinary.config')
 
 router.post('/addproduct', (req, res, next) => {
-  const {name, category, description} = req.body
+  const { name, category, description, price, image, ingredients } = req.body
+
+  const separatedIngredients = ingredients.split(',').map(word => word.trim())
 
   Product.findOne({name}, (err, foundProduct) => {
     if (err) {
@@ -63,7 +21,10 @@ router.post('/addproduct', (req, res, next) => {
     Product.create({
       name,
       category,
-      description
+      description,
+      price,
+      ingredients: separatedIngredients,
+      image
     }, (err, newProduct) => {
       if (err) {
         res.status(500).json({message: "Ha ocurrido un error al crear el producto"})
@@ -72,9 +33,42 @@ router.post('/addproduct', (req, res, next) => {
       res.status(200).json(newProduct)
     })
   })
-
-
-
 })
+
+router.post('/editproduct', (req, res, next) => {
+  const { name, category, description, price, image, ingredients, _id } = req.body
+  const separatedIngredients = () => {
+    if (typeof ingredients === 'string') {
+      return ingredients.split(',').map(word => word.trim())
+    }
+    return ingredients
+  }
+
+  const productUpdated = {
+    name,
+    category,
+    description,
+    price,
+    image,
+    ingredients: separatedIngredients()
+  }
+
+  Product.findByIdAndUpdate(_id, productUpdated, (err, editedProduct) => {
+    if (err) {
+      res.status(500).json({ message: "Ha ocurrido un error al editar el producto" })
+      return
+    }
+    res.status(200).json(editedProduct)
+  })
+})
+
+router.post('/imageupload', imageUploader.single('image'), (req, res, next) => {
+  if (req.file) {
+    return res.status(200).json({ url: req.file.path })
+  }
+  res.status(500).json({message: 'Error al cargar la imagen.'})
+})
+
+
 
 module.exports = router

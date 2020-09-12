@@ -60,8 +60,20 @@ app.use(cors({
 const index = require('./routes/index');
 const adminRoutes = require('./routes/admin.routes')
 const menuRoutes = require('./routes/menu.routes')
-app.use('/', index, menuRoutes);
-app.use('/admin', adminRoutes, menuRoutes)
+const authRoutes = require('./routes/auth.routes')
+const cartRoutes = require('./routes/order.routes')
+const configRoutes = require('./routes/config.routes')
+app.use('/', 
+  index, 
+  menuRoutes, 
+  authRoutes,
+  cartRoutes
+  );
+app.use('/admin', 
+  adminRoutes,
+  menuRoutes,
+  configRoutes
+  )
 
 
 module.exports = app;
