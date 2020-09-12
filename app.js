@@ -63,13 +63,13 @@ const menuRoutes = require('./routes/menu.routes')
 const authRoutes = require('./routes/auth.routes')
 const cartRoutes = require('./routes/order.routes')
 const configRoutes = require('./routes/config.routes')
-app.use('/', 
+app.use('/api', 
   index, 
   menuRoutes, 
   authRoutes,
   cartRoutes
   );
-app.use('/admin', 
+app.use('/api/admin', 
   adminRoutes,
   menuRoutes,
   configRoutes
