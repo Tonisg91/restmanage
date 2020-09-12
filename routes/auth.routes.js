@@ -85,14 +85,8 @@ router.post('/signup', (req, res, next) => {
                         res.status(500).json({ message: "Error al crear el usuario Admin" })
                         return
                     }
-                    req.login(newClient, (err) => {
-                        if (err) {
-                            res.status(500).json({ message: "El login client despues de signup ha fallado" })
-                            return
-                        }
-                        res.status(200).json(newClient)
-                        return
-                    })
+                    res.status(200).json(newClient)
+                    return
                 })
         })
         return
@@ -142,7 +136,6 @@ router.post('/updateuser', async (req, res, next) => {
         const newData = adminPermissions ? 
             await Admin.findByIdAndUpdate(_id, req.body, { new: true }) :
             await Client.findByIdAndUpdate(_id, req.body, { new: true })
-        
         res.status(200).json(newData)
     } catch (err) {
         return res.status(500).json({ message: 'Error al actualizar el usuario'})
