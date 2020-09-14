@@ -63,6 +63,7 @@ const menuRoutes = require('./routes/menu.routes')
 const authRoutes = require('./routes/auth.routes')
 const cartRoutes = require('./routes/order.routes')
 const configRoutes = require('./routes/config.routes')
+const dailyMenuRoutes = require('./routes/dailyMenu.routes')
 app.use('/api', 
   index, 
   menuRoutes, 
@@ -72,7 +73,8 @@ app.use('/api',
 app.use('/api/admin', 
   adminRoutes,
   menuRoutes,
-  configRoutes
+  configRoutes,
+  dailyMenuRoutes
   )
 
 
