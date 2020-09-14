@@ -6,8 +6,8 @@ router.post('/updatedailymenu', async (req, res, next) => {
 
     try {
         const existentDailyMenu = _id ? await DailyMenu.findById(_id) : null
-
         if (!existentDailyMenu) {
+            console.log('ENTRO DENTRO DEL IF')
             const newDailyMenu = await DailyMenu.create({
                 starters,
                 mains,
@@ -16,25 +16,18 @@ router.post('/updatedailymenu', async (req, res, next) => {
                 withBread,
                 price
             })
-            console.log(newDailyMenu)
             return res.status(200).json(newDailyMenu)
         }
 
-        const updatedDailyMenu = await DailyMenu.findByIdAndUpdate(existentDailyMenu._id, {
-            startes,
-            mains,
-            desserts,
-            withCoffee,
-            withBread,
-            price,
-        }, { new: true })
+        const updatedDailyMenu = await DailyMenu.findByIdAndUpdate(_id, req.body, { new: true })
+
         return res.status(200).json(updatedDailyMenu)
     } catch (error) {
         return res.status(500).json({ message: "Error al actualizar los datos del menú diario." })
     }
 })
 
-router.get('getdailymenu', async (req, res, next) => {
+router.get('/getdailymenu', async (req, res, next) => {
     try {
         const currentDailyMenu = await DailyMenu.find()
         if (!currentDailyMenu) return res.status(200).json(null)
