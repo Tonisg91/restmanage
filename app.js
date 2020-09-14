@@ -63,16 +63,18 @@ const menuRoutes = require('./routes/menu.routes')
 const authRoutes = require('./routes/auth.routes')
 const cartRoutes = require('./routes/order.routes')
 const configRoutes = require('./routes/config.routes')
+const dailyMenuRoutes = require('./routes/dailyMenu.routes')
 app.use('/api', 
   index, 
   menuRoutes, 
   authRoutes,
-  cartRoutes
+  cartRoutes,
   );
 app.use('/api/admin', 
   adminRoutes,
   menuRoutes,
-  configRoutes
+  configRoutes,
+  dailyMenuRoutes
   )
 app.use((req, res, next) => {
   // If no routes match, send them the React HTML.
