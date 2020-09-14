@@ -135,7 +135,7 @@ router.post('/updateuser', async (req, res, next) => {
     try {
         const newData = adminPermissions ? 
             await Admin.findByIdAndUpdate(_id, req.body, { new: true }) :
-            await Client.findByIdAndUpdate(_id, req.body, { new: true })
+            await Client.findByIdAndUpdate(_id, req.body, { new: true }).populate('orders')
         res.status(200).json(newData)
     } catch (err) {
         return res.status(500).json({ message: 'Error al actualizar el usuario'})
