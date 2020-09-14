@@ -33,8 +33,8 @@ router.get('/getdailymenu', async (req, res, next) => {
 
         return res.status(200).json(currentDailyMenu[0])
     } catch (error) {
-        return res.status(500).json({ message: "Error al obtener el menú diario." })
+        return res.status(500).json({message: "Error al obtener el menú diario."})
     }
-})
+})  
 
 module.exports = router

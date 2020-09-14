@@ -68,7 +68,7 @@ app.use('/api',
   index, 
   menuRoutes, 
   authRoutes,
-  cartRoutes
+  cartRoutes,
   );
 app.use('/api/admin', 
   adminRoutes,
@@ -76,6 +76,9 @@ app.use('/api/admin',
   configRoutes,
   dailyMenuRoutes
   )
-
+app.use((req, res, next) => {
+  // If no routes match, send them the React HTML.
+  res.sendFile(__dirname + "/public/index.html");
+});
 
 module.exports = app;

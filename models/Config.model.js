@@ -1,7 +1,10 @@
 const { Schema, model } = require('mongoose')
 
 const configSchema = new Schema({
-    name: String,
+    name: {
+        type: String,
+        default: 'Nombre del restaurante'
+    },
     logo: String,
     ticketLogo: String,
     phone: String,
