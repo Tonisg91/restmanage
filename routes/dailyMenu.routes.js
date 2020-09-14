@@ -7,7 +7,6 @@ router.post('/updatedailymenu', async (req, res, next) => {
     try {
         const existentDailyMenu = _id ? await DailyMenu.findById(_id) : null
         if (!existentDailyMenu) {
-            console.log('ENTRO DENTRO DEL IF')
             const newDailyMenu = await DailyMenu.create({
                 starters,
                 mains,
