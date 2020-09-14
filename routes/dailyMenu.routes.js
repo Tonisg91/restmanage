@@ -2,7 +2,6 @@ const router = require('express').Router()
 const DailyMenu = require('../models/DailyMenu.model')
 
 router.post('/updatedailymenu', async (req, res, next) => {
-    console.log(req.body)
     const { starters, mains, desserts, withCoffee, withBread, price, _id } = req.body
 
     try {
@@ -29,8 +28,6 @@ router.post('/updatedailymenu', async (req, res, next) => {
             withBread,
             price,
         }, { new: true })
-
-        console.log(updatedDailyMenu)
         return res.status(200).json(updatedDailyMenu)
     } catch (error) {
         return res.status(500).json({ message: "Error al actualizar los datos del menú diario." })
