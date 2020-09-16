@@ -64,11 +64,13 @@ const authRoutes = require('./routes/auth.routes')
 const cartRoutes = require('./routes/order.routes')
 const configRoutes = require('./routes/config.routes')
 const dailyMenuRoutes = require('./routes/dailyMenu.routes')
+const checkoutRoutes = require('./routes/checkout.routes')
 app.use('/api', 
   index, 
   menuRoutes, 
   authRoutes,
   cartRoutes,
+  checkoutRoutes
   );
 app.use('/api/admin', 
   adminRoutes,
